@@ -2,20 +2,21 @@
 {% load static %}
 {% block content %}
 
-<div class="card">
-  <img src="{% static 'images/placeholder2.jpg' %}" style="width:100%">
-  <h2>Zdjęcie przykładowe #1</h2>
-  <p class="price">50zł</p>
-  <p class="text">
-      Autor: ktokolwiek
-      <br>
-      Wymiary: 2000x1000
-      <br>
-      Opis: Zdjecie wykonane w 1919191roku idealne do reklamy
-  </p>
-
-  <a class="btn btn-outline-success" href="{% url 'buy' %}" ><strong>Zaproponuj kupno</strong></a>
+<div class="row">
+    <div class="card">
+      <img src="{% static 'images/placeholder2.jpg' %}" style="width:100%; border-radius:3%;">
+        <br>
+      <h2>Zdjęcie przykładowe #1</h2>
+      <p class="price">50zł</p>
+      <p class="text">
+          Autor: ktokolwiek
+          <br>
+          Wymiary: 2000x1000
+          <br>
+          Opis: Zdjecie wykonane w 1919191roku idealne do reklamy
+      </p>
+      <button type="button" class="btn btn-outline-success">Zaproponuj kupno</button>'
+    </div>
 </div>
-
 
 {% endblock content %}
