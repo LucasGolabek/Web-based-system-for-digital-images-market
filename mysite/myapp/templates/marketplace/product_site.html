@@ -1,6 +1,21 @@
 {% extends 'marketplace/main.html' %}
 {% load static %}
 {% block content %}
-    <h3>Product Site</h3>
+
+<div class="card">
+  <img src="{% static 'images/placeholder2.jpg' %}" style="width:100%">
+  <h2>Zdjęcie przykładowe #1</h2>
+  <p class="price">50zł</p>
+  <p class="text">
+      Autor: ktokolwiek
+      <br>
+      Wymiary: 2000x1000
+      <br>
+      Opis: Zdjecie wykonane w 1919191roku idealne do reklamy
+  </p>
+
+  <a class="btn btn-outline-success" href="{% url 'buy' %}" ><strong>Zaproponuj kupno</strong></a>
+</div>
+
 
 {% endblock content %}

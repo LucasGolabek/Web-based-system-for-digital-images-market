@@ -1,6 +1,60 @@
 {% extends 'marketplace/main.html' %}
 {% load static %}
 {% block content %}
-    <h3>Buyout Page</h3>
+<div class="row">
+    <div class="col-lg-12">
+        <div style="display:inline-block;" class="box-element">
+            <div>
+                <img style="border-radius:8px; padding:5px; max-width: 30%; height:auto; margin-left:auto;" class="thumbnail" src="{% static 'images/placeholder2.jpg' %}">
+                <h5><strong>Nazwa: xxx Cena: xxx  Autor: xxx Rozmiar: xxx</strong></h5>
+
+            </div>
+
+        </div>
+        <br>
+        <br>
+
+
+
+
+
+
+        <div class="box-element">
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Adres email</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nazwa@przykład.com">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Proponowana Cena</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="??? zł">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Zastosowanie</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                  <option>Komercyjne</option>
+                  <option>Prywatne</option>
+                  <option>Inne</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Uwagi do sprzedającego</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+            </form>
+        </div>
+        <br>
+
+        <table class="table">
+            <a style="float:right; margin:5px; display:inline-block" class ="btn btn-outline-success" href="{% url 'mainpage' %}"> Zaproponuj kupno</a>
+            <h3 style="float: left; display:inline-block">Cena: ???zł</h3>
+
+        </table>
+
+    </div>
+
+</div>
+
 
 {% endblock content %}
