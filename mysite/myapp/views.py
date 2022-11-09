@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 import datetime
 from django.contrib.auth.forms import UserCreationForm
@@ -18,13 +18,6 @@ def mainpage(request):
     return render(request, 'marketplace/mainpage.html', context)
 
 
-
-@login_required(login_url='login')
-def buy(request):
-    context = {}
-    return render(request, 'marketplace/buy.html', context)
-
-
 @login_required(login_url='login')
 def active(request):
     context = {}
@@ -38,11 +31,17 @@ def create(request):
 
 
 @login_required(login_url='login')
-def product(request):
-    product = Product.objects.all()
-    print(product)
-    context = {}
+def product_site(request, id):
+    product = get_object_or_404(Product, pk=id)
+    context = {'product':product}
     return render(request, 'marketplace/product_site.html', context)
+
+
+@login_required(login_url='login')
+def buy(request, id):
+    product = get_object_or_404(Product, pk=id)
+    context = {'product':product}
+    return render(request, 'marketplace/buy.html', context)
 
 
 @login_required(login_url='login')
