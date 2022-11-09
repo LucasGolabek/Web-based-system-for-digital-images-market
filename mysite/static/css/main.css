@@ -118,3 +118,17 @@ img {
   font-size: 32px;
 }
 
+.failed {
+  color: darkred;
+  font-size: 16px;
+}
+
+.succes {
+  color: darkgreen;
+  font-size: 16px;
+}
+
+.welcomemessage{
+  color: black;
+  font-size: 16px;
+}

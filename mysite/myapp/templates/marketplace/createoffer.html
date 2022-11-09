@@ -1,0 +1,42 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="card">
+        <form>
+          <div class="mb-3">
+              <label for="formFile" class="form-label">Wybierz obraz do oferty</label>
+              <input class="form-control" type="file" id="formFile">
+          </div>
+            <br>
+
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Nazwa zdjęcia</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1">
+          </div>
+            <br>
+            <div class="form-group">
+            <label for="exampleFormControlInput1">Cena</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1">
+          </div>
+            <br>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Wybierz zastosowanie obrazu</label>
+            <select class="form-control" id="exampleFormControlSelect1">
+              <option>Komercyjne</option>
+              <option>Prywatne</option>
+              <option>Oba</option>
+            </select>
+          </div>
+            <br>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Opis obrazu</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+            <br>
+            <button type="button" class="btn btn-secondary">Dodaj ofertę</button>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}
