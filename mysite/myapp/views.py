@@ -23,3 +23,13 @@ def checkout(request):
 def product(request):
     context = {}
     return render(request, 'marketplace/product_site.html', context)
+
+
+def login_page(request):
+    context = {}
+    return render(request, 'marketplace/login_page.html', context)
+
+
+def register_page(request):
+    context = {}
+    return render(request, 'marketplace/register.html', context)

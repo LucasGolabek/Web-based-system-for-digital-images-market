@@ -1,0 +1,38 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="card">
+        <form>
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1">Podaj Login</label>
+            <input type="email" id="form2Example1" class="form-control" />
+
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example2">Podaj hasło</label>
+            <input type="password" id="form2Example2" class="form-control" />
+
+          </div>
+
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example2">Powtórz hasło</label>
+            <input type="password" id="form3Example3" class="form-control" />
+
+          </div>
+
+
+          <button type="button" class="btn btn-outline-secondary">Zarejestruj</button>
+          <br>
+          <br>
+          <div class="text-center">
+            <p>Masz już konto?<a href="{% url 'login' %}">Zaloguj się</a></p>
+          </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
