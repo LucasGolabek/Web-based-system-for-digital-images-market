@@ -18,6 +18,7 @@ def mainpage(request):
     return render(request, 'marketplace/mainpage.html', context)
 
 
+
 @login_required(login_url='login')
 def buy(request):
     context = {}
@@ -38,6 +39,8 @@ def create(request):
 
 @login_required(login_url='login')
 def product(request):
+    product = Product.objects.all()
+    print(product)
     context = {}
     return render(request, 'marketplace/product_site.html', context)
 
