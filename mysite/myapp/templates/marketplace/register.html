@@ -1,0 +1,61 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<form method="POST" action="">
+  {% csrf_token %}
+  <div class="row">
+        <div class="card">
+            <form>
+              <!-- Username input -->
+              <div class="form-outline mb-4">
+
+                <label class="form-label">Podaj nazwę użytkownika</label>
+                <br>
+                {{form.username}}
+
+
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline mb-4">
+                <label class="form-label">Podaj adres e-mail</label>
+                <br>
+                {{form.email}}
+
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <label class="form-label">Podaj hasło</label>
+                <br>
+                {{form.password1}}
+
+              </div>
+               <!-- Password confirmation -->
+              <div class="form-outline mb-4">
+                <label class="form-label">Powtórz hasło</label>
+                <br>
+                {{form.password2}}
+
+              </div>
+
+              <div>
+                <input class="btn btn-secondary" type="submit" value="Zarejestruj">
+              </div>
+              <br>
+
+              <div class="text-center">
+                <p>Masz już konto?<a href="{% url 'login' %}">Zaloguj się</a></p>
+              </div>
+            </form>
+          {% if messages %}
+            {% for message in messages %}
+            <p class="failed">{{message}}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}

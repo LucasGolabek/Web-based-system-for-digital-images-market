@@ -5,16 +5,14 @@
     <div class="col-lg-12">
         <div style="display:inline-block;" class="box-element">
             <div>
-                <img style="border-radius:8px; padding:5px; max-width: 30%; height:auto; margin-left:auto;" class="thumbnail" src="{% static 'images/placeholder2.jpg' %}">
-                <h5><strong>Nazwa: xxx Cena: xxx  Autor: xxx Rozmiar: xxx</strong></h5>
+                <img style="border-radius:8px; padding:5px; max-width: 35%; height:auto; margin-left:auto;" class="thumbnail" src="{{product.imageURL}}">
+                <h5><strong>Nazwa: {{product.name}}  Autor: xxx Rozmiar: xxx</strong></h5>
 
             </div>
 
         </div>
         <br>
         <br>
-
-
 
 
 
@@ -27,7 +25,7 @@
               </div>
               <div class="form-group">
                 <label for="exampleFormControlInput1">Proponowana Cena</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="??? zł">
+                <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="??? zł">
               </div>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Zastosowanie</label>
@@ -48,7 +46,7 @@
 
         <table class="table">
             <a style="float:right; margin:5px; display:inline-block" class ="btn btn-outline-success" href="{% url 'mainpage' %}"> Zaproponuj kupno</a>
-            <h3 style="float: left; display:inline-block">Cena: ???zł</h3>
+            <h3 style="float: left; display:inline-block"> Cena autora: {{product.price|floatformat:2}}zł</h3>
 
         </table>
 

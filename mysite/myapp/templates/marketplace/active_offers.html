@@ -1,0 +1,61 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+
+        <div class="col-lg-4">
+            <img class="thumbnail" src="{% static 'images/placeholder1.jpg' %}">
+            <div class="box-element product">
+                <h5><strong>Photo</strong></h5>
+                <hr>
+                <a class="btn btn-outline-primary" href="{% url 'messages_p' %}" ><strong>Wiadomości</strong>
+                    <span class="badge rounded-pill bg-primary">
+                        5
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+
+                </a>
+                <a class="btn btn-outline-danger" href="#"><strong>Usuń ofertę</strong></a>
+                <h3 style="display:inline-block;float: right">50zł</h3>
+
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
+            <div class="box-element product">
+                <h5><strong>Photo</strong></h5>
+                <hr>
+                <a class="btn btn-outline-primary" href="{% url 'messages_p' %}" ><strong>Wiadomości</strong>
+                    <span class="badge rounded-pill bg-primary">
+                        2
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
+                <a class="btn btn-outline-danger" href="#"><strong>Usuń ofertę</strong></a>
+                <h3 style="display:inline-block;float: right">50zł</h3>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+            <img class="thumbnail" src="{% static 'images/placeholder2.jpg' %}">
+            <div class="box-element product">
+                <h5><strong>Photo</strong></h5>
+                <hr>
+                <a class="btn btn-outline-primary" href="{% url 'messages_p' %}" ><strong>Wiadomości</strong>
+                    <span class="badge rounded-pill bg-primary">
+                        3
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
+                <a class="btn btn-outline-danger" href="#"><strong>Usuń ofertę</strong></a>
+                <h3 style="display:inline-block;float: right">50zł</h3>
+            </div>
+
+
+        </div>
+
+    </div>
+
+{% endblock content %}

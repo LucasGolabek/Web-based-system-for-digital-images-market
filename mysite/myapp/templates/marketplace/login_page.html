@@ -1,0 +1,40 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="row">
+        <div class="card">
+            <form>
+              <!-- Login input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Login</label>
+                <input type="text" name="username" class="form-control" />
+
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example2">Hasło</label>
+                <input type="password" name="password" class="form-control" />
+
+              </div>
+
+
+              <input class="btn btn-secondary" type="submit" value="Zaloguj">
+              <br>
+              <br>
+              <div class="text-center">
+                <p>Nie masz konta?<a href="{% url 'register' %}">Zarejestruj się</a></p>
+              </div>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                <p class="succes">{{message}}</p>
+                {% endfor %}
+              {% endif %}
+        </div>
+    </div>
+</form>
+{% endblock content %}

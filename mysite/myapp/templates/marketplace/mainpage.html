@@ -1,45 +1,20 @@
 {% extends 'marketplace/main.html' %}
 {% load static %}
 {% block content %}
-    <div class="row">
-
-        <div class="col-lg-4">
-            <img class="thumbnail" src="{% static 'images/placeholder1.jpg' %}">
+    <div class="row" style="margin-bottom: 20px;">
+        {% for product in products %}
+        <div class="col-lg-4" style="margin-bottom: 20px;">
+            <img class="thumbnail" src="{{product.imageURL}}">
             <div class="box-element product">
-                <h5><strong>Photo</strong></h5>
+                <h5><strong>{{product.name}}</strong></h5>
                 <hr>
-                <a class="btn btn-outline-secondary" href="{% url 'buy' %}" ><strong>Zaproponuj kupno</strong></a>
-                <a class="btn btn-outline-success" href="{% url 'product' %}"><strong>Zobacz</strong></a>
-                <h3 style="display:inline-block;float: right">50zł</h3>
+                <a class="btn btn-outline-secondary" href="{% url 'buy' product.id %}" ><strong>Zaproponuj kupno</strong></a>
+                <a class="btn btn-outline-success" href="{% url 'product' product.id  %}"><strong>Zobacz</strong></a>
+                <h3 style="display:inline-block;float: right">{{product.price|floatformat:2}}zł</h3>
 
             </div>
         </div>
-
-        <div class="col-lg-4">
-            <img class="thumbnail" src="{% static 'images/placeholder.png' %}">
-            <div class="box-element product">
-                <h5><strong>Photo</strong></h5>
-                <hr>
-                <a class="btn btn-outline-secondary" href="{% url 'buy' %}" ><strong>Zaproponuj kupno</strong></a>
-                <a class="btn btn-outline-success" href="{% url 'product' %}"><strong>Zobacz</strong></a>
-                <h3 style="display:inline-block;float: right">50zł</h3>
-            </div>
-
-        </div>
-
-        <div class="col-lg-4">
-            <img class="thumbnail" src="{% static 'images/placeholder2.jpg' %}">
-            <div class="box-element product">
-                <h5><strong>Photo</strong></h5>
-                <hr>
-                <a class="btn btn-outline-secondary" href="{% url 'buy' %}" ><strong>Zaproponuj kupno</strong></a>
-                <a class="btn btn-outline-success" href="{% url 'product' %}"><strong>Zobacz</strong></a>
-                <h3 style="display:inline-block;float: right">50zł</h3>
-            </div>
-
-
-        </div>
-
+        {% endfor %}
     </div>
 
 {% endblock content %}

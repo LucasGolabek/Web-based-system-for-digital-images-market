@@ -13,6 +13,7 @@ h1,h2,h3,h4,h5,h6{
 	background-color: #fff;
 	border-radius: 4px;
 	padding: 10px;
+	width: 100%;
 }
 
 .thumbnail{
@@ -24,7 +25,6 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
-
 .product{
 	border-radius: 0 0 4px 4px;
 }
@@ -33,6 +33,11 @@ h1,h2,h3,h4,h5,h6{
 	background-color: #4f868c!important;
 }
 
+<<<<<<< HEAD
+=======
+
+}
+>>>>>>> 9d65bfe30b20a54bc697eb0c6042839a146d95a2
 
 .col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
 	margin-top: 10px;
@@ -117,3 +122,17 @@ img {
   font-size: 32px;
 }
 
+.failed {
+  color: darkred;
+  font-size: 16px;
+}
+
+.succes {
+  color: darkgreen;
+  font-size: 16px;
+}
+
+.welcomemessage{
+  color: black;
+  font-size: 16px;
+}

@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 {% load static %}
+<style>
+    #welcome-msg{
+    font-size: 20px;
+    margin-right: 20px
+    }
+
+</style>
+
 <html>
 
 <head>
@@ -16,7 +24,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;; margin-bottom: 20px;">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'mainpage' %}">Photo Marketplace</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,17 +36,17 @@
               <a class="nav-link active" aria-current="page" href="{% url 'mainpage' %}">Główna</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'mainpage' %}">Twoje oferty</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'active' %}">Twoje oferty</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'mainpage' %}">Sprzedaj</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'create' %}">Sprzedaj</a>
             </li>
 
           </ul>
 
-            <div class="form-inline my-2 my-lg-0">
-                <a href="#" class="btn btn-secondary">Zaloguj</a>
-            </div>
+            <span id="welcome-msg">Cześć, {{request.user}}   </span>
+            <span><a href="{% url 'logout' %}" class="btn btn-secondary">Wyloguj</a></span>
+
 
         </div>
       </div>
