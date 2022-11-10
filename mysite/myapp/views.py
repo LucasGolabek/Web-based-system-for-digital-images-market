@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 import datetime
 from django.contrib.auth.forms import UserCreationForm
@@ -20,7 +20,9 @@ def mainpage(request):
 
 @login_required(login_url='login')
 def active(request):
-    context = {}
+    actives = Product.objects.filter(pk__in=[1,2,5])
+    print(actives)
+    context = {'actives':actives}
     return render(request, 'marketplace/active_offers.html', context)
 
 
