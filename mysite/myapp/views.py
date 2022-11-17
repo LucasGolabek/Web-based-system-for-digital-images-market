@@ -14,7 +14,8 @@ from .models import *
 @login_required(login_url='login')
 def mainpage(request):
     products = Product.objects.all()
-    context = {'products':products}
+    context = {'products':products,
+               'page_name':'mainpage'}
     return render(request, 'marketplace/mainpage.html', context)
 
 
@@ -22,13 +23,14 @@ def mainpage(request):
 def active(request):
     actives = Product.objects.filter(pk__in=[1,2,5])
     print(actives)
-    context = {'actives':actives}
+    context = {'actives':actives,
+               'page_name':'active'}
     return render(request, 'marketplace/active_offers.html', context)
 
 
 @login_required(login_url='login')
 def create(request):
-    context = {}
+    context = {'page_name':'create'}
     return render(request, 'marketplace/createoffer.html', context)
 
 
