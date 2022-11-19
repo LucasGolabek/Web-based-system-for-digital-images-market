@@ -51,6 +51,11 @@
             <table class="table">
                 <input class="btn btn-secondary" type="submit" value="Zaproponuj kupno">
             </table>
+            {% if messages %}
+                {% for message in messages %}
+                <p class="succes">{{message}}</p>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </form>

@@ -13,6 +13,6 @@ urlpatterns = [
                   path('logout/', views.logout_page, name='logout'),
                   path('active/', views.active, name='active'),
                   path('crate/', views.create, name='create'),
-                  path('messages/', views.message_page, name='messages_p'),
+                  path('messages/<int:id>/', views.message_page, name='messages'),
                   path('delete/<int:id>/', views.delete_photo, name='delete')
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

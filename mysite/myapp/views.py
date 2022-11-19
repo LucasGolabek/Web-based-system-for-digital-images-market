@@ -23,6 +23,7 @@ def mainpage(request):
 def active(request):
     username = request.user.username
     actives = Product.objects.filter(username=username)
+
     if len(actives) < 3:
         context = {'actives': actives,
                    'page_name': 'active'}
@@ -31,6 +32,24 @@ def active(request):
         context = {'actives':actives,
                    'page_name':'active'}
         return render(request, 'marketplace/active_offers.html', context)
+
+
+@login_required(login_url='login')
+def message_page(request, id):
+    username = request.user.username
+    photo = get_object_or_404(Product, pk=id)
+    offers = Messages.objects.filter(user_to=username, photo_id=photo)
+    photo_usage = photo.usage
+
+    if photo_usage == 'K':
+        usage = 'Komercyjne'
+    elif photo_usage == 'P':
+        usage = 'Prywatne'
+    else:
+        usage = 'Komercyjne ograniczone'
+    context = {'offers': offers,
+               'usage': usage}
+    return render(request, 'marketplace/messages.html', context)
 
 
 @login_required(login_url='login')
@@ -108,12 +127,6 @@ def product_site(request, id):
     context = {'product':product,
                'usage':usage}
     return render(request, 'marketplace/product_site.html', context)
-
-
-@login_required(login_url='login')
-def message_page(request):
-    context = {}
-    return render(request, 'marketplace/messages.html', context)
 
 
 def login_page(request):
