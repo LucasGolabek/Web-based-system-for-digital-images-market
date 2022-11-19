@@ -39,8 +39,12 @@
               <a class="nav-link {% if page_name == 'active' %} active {% endif %}" aria-current="page" href="{% url 'active' %}">Twoje oferty</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link {% if page_name == 'create' %} active {% endif %}" aria-current="page" href="#">Złożone oferty</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link {% if page_name == 'create' %} active {% endif %}" aria-current="page" href="{% url 'create' %}">Sprzedaj</a>
             </li>
+
 
           </ul>
 
