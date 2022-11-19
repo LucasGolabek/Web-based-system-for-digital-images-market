@@ -11,7 +11,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     description = models.CharField(max_length=600, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     username = models.CharField(max_length=100, null=True)
     usage = models.CharField(max_length=2, choices=usage_possibilities)
 

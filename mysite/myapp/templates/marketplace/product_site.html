@@ -9,7 +9,9 @@
       <h2>{{product.name}}</h2>
       <p class="price">{{product.price|floatformat:2}} zł</p>
       <p class="text">
-          Autor: Jan Kowalski
+          Autor: {{product.username}}
+          <br>
+          Zastosowanie: {{usage}}
           <br>
           <br>
           {{product.description}}

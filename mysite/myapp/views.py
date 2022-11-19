@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.http import HttpResponse
 import datetime
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm
+from .forms import CreateUserForm, AddImageForm, BuyoutProposalForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -21,31 +21,93 @@ def mainpage(request):
 
 @login_required(login_url='login')
 def active(request):
-    actives = Product.objects.filter(pk__in=[1,2,5])
-    print(actives)
-    context = {'actives':actives,
-               'page_name':'active'}
-    return render(request, 'marketplace/active_offers.html', context)
+    username = request.user.username
+    actives = Product.objects.filter(username=username)
+    if len(actives) < 3:
+        context = {'actives': actives,
+                   'page_name': 'active'}
+        return render(request, 'marketplace/active_offers2.html', context)
+    else:
+        context = {'actives':actives,
+                   'page_name':'active'}
+        return render(request, 'marketplace/active_offers.html', context)
+
+
+@login_required(login_url='login')
+def delete_photo(request, id):
+    photo = get_object_or_404(Product, pk=id)
+    if request.method == "POST":
+        photo.delete()
+        return redirect('mainpage')
+    context = {
+        'photo': photo,
+        'page_name': 'delete'
+    }
+    return render(request, 'marketplace/delete.html', context)
 
 
 @login_required(login_url='login')
 def create(request):
-    context = {'page_name':'create'}
+    if request.method == "POST":
+        image_form = AddImageForm(request.POST, request.FILES)
+        if image_form.is_valid():
+            image_form.save()
+            messages.success(request, ('Twoje zdjęcie zostało dodane'))
+        else:
+            messages.error(request, ('Nie udało się dodać zdjęcia'))
+    initial = {'username': request.user.username}
+    image_form = AddImageForm(initial=initial)
+    context = {'image_form':image_form}
     return render(request, 'marketplace/createoffer.html', context)
-
-
-@login_required(login_url='login')
-def product_site(request, id):
-    product = get_object_or_404(Product, pk=id)
-    context = {'product':product}
-    return render(request, 'marketplace/product_site.html', context)
 
 
 @login_required(login_url='login')
 def buy(request, id):
     product = get_object_or_404(Product, pk=id)
-    context = {'product':product}
+
+    photo_id = product.pk
+    photo_owner = product.username
+    photo_usage = product.usage
+
+    if photo_usage == 'K':
+        usage = 'Komercyjne'
+    elif photo_usage =='P':
+        usage = 'Prywatne'
+    else:
+        usage = 'Komercyjne ograniczone'
+
+    initial = {'user_from': request.user.username,
+               'user_to': photo_owner,
+               'photo_id': photo_id}
+    message_form = BuyoutProposalForm(initial=initial)
+
+    context = {'message_form': message_form,
+               'product':product,
+               'usage': usage}
+    if request.method == "POST":
+        message_form = BuyoutProposalForm(request.POST, request.FILES)
+        if message_form.is_valid():
+            message_form.save()
+            messages.success(request, ('Wysłano wiadomość'))
+        else:
+            messages.error(request, ('Nie udało się wysłac wiadomości'))
+
     return render(request, 'marketplace/buy.html', context)
+
+@login_required(login_url='login')
+def product_site(request, id):
+    product = get_object_or_404(Product, pk=id)
+    photo_usage = product.usage
+    if photo_usage == 'K':
+        usage = 'Komercyjne'
+    elif photo_usage =='P':
+        usage = 'Prywatne'
+    else:
+        usage = 'Komercyjne ograniczone'
+
+    context = {'product':product,
+               'usage':usage}
+    return render(request, 'marketplace/product_site.html', context)
 
 
 @login_required(login_url='login')

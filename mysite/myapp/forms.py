@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from .models import Product, Messages
 
 
 class CreateUserForm(UserCreationForm):
@@ -19,11 +20,14 @@ class CreateUserForm(UserCreationForm):
         self.fields['password2'].widget.attrs['class'] = 'form-control'
 
 
-class AddImageForm():
-    usage_possibilities = (('P', 'Prywatne'), ('K', 'Komercyjne'), ('KO', 'Komercyjne ograniczone'))
+class AddImageForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'username', 'description', 'price', 'usage', 'image']
 
-    photo_name = forms.CharField(label='Nazwa zdjęcia', max_length=50)
-    username = forms.CharField(label='Twoja nazwa użytkownika', max_length=100)
-    description = forms.CharField(label='Opis zdjęcia', max_length=600)
-    price = forms.FloatField()
-    usage = forms.CharField(max_length=2, choices=usage_possibilities)
+class BuyoutProposalForm(ModelForm):
+    class Meta:
+        model = Messages
+        fields = ['user_from', 'user_to', 'message_text', 'negotiation_price', 'negotiation_usage', 'photo_id']
+
+

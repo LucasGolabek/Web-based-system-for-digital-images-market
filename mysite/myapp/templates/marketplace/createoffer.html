@@ -1,46 +1,58 @@
 {% extends 'marketplace/main.html' %}
 {% load static %}
 {% block content %}
-<div class="row">
-    <div class="card">
-        <form>
-          <div class="mb-3">
-              <label for="PhotoFile" class="form-label">Wybierz obraz do oferty</label>
-              <input class="form-control" type="file" id="PhotoFile">
-          </div>
-            <br>
-          <div class="form-group">
-            <label for="Username">Podaj swoją nazwę użytkownika</label>
-            <input type="email" class="form-control" id="Username">
-          </div>
-          <br>
-          <div class="form-group">
-            <label for="PhotoName">Nazwa zdjęcia</label>
-            <input type="email" class="form-control" id="PhotoName">
-          </div>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+
+      <div class="card">
+          <form>
+            <div class="mb-3">
+                <label class="form-label">Wybierz obraz do oferty</label>
+                <br>
+                {{image_form.image}}
+            </div>
+              <br>
+            <div class="form-group">
+              <label>Podaj swoją nazwę użytkownika</label>
+              <br>
+              {{image_form.username}}
+            </div>
             <br>
             <div class="form-group">
-            <label for="PhotoPrice">Cena</label>
-            <input type="email" class="form-control" id="PhotoPrice">
-          </div>
-            <br>
-          <div class="form-group">
-            <label for="PhotoDestiny">Wybierz zastosowanie obrazu</label>
-            <select class="form-control" id="PhotoDestiny">
-              <option>Komercyjne z ograniczeniami</option>
-              <option>Komercyjne bez ograniczeń</option>
-              <option>Prywatne</option>
-            </select>
-          </div>
-            <br>
-          <div class="form-group">
-            <label for="PhotoDescription">Opis obrazu</label>
-            <textarea class="form-control" id="PhotoDescription" rows="3"></textarea>
-          </div>
-            <br>
-            <button type="button" class="btn btn-secondary">Dodaj ofertę</button>
+              <label>Nazwa zdjęcia</label>
+              <br>
+              {{image_form.name}}
+            </div>
+              <br>
+              <div class="form-group">
+              <label>Cena</label>
+              <br>
+              {{image_form.price}}
+            </div>
+              <br>
+            <div class="form-group">
+              <label>Wybierz zastosowanie obrazu</label>
+              <br>
+              {{image_form.usage}}
+            </div>
+              <br>
+            <div class="form-group">
+              <label>Opis obrazu</label>
+              <br>
+              {{image_form.description}}
+            </div>
+              <br>
+              <input class="btn btn-secondary" type="submit" value="Dodaj Ofertę">
 
-        </form>
-    </div>
-</div>
+          </form>
+        {% if messages %}
+          {% for message in messages %}
+          <p class="failed">{{message}}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+  </div>
+</form>
+
 {% endblock content %}
