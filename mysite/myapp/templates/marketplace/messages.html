@@ -1,25 +1,28 @@
 {% extends 'marketplace/main.html' %}
 {% load static %}
 {% block content %}
-
-<div class="row" style="margin-bottom: 20px;">
-    {% for offer in offers %}
-        <div class="col-lg-12" style="margin-bottom: 20px;">
-          <div class="card bg-light mb-3">
-            <div class="card-header">Wiadomosc</div>
-              <div class="card-body">
-                <h5 class="card-title">Wiadomość od: {{offer.user_from}}</h5>
-                <p class="card-text"> Treść: {{offer.message_text}}</p>
-                <p class="card-text">Cena: {{offer.negotiation_price}} zł</p>
-                <p class="card-text">Użytkowanie: {{usage}}</p>
-                <a class="btn btn-outline-danger" href="#" ><strong>Odrzuć</strong></a>
-                <a class="btn btn-outline-success" href="#" ><strong>Zaakceptuj</strong></a>
-                <a class="btn btn-outline-primary" href="#" ><strong>Kontroferta</strong></a>
+<form method="POST">
+    {% csrf_token %}
+    <div class="row" style="margin-bottom: 20px;">
+        {% for offer in offers %}
+            <div class="col-lg-12" style="margin-bottom: 20px;">
+              <div class="card bg-light mb-3">
+                <div class="card-header">Wiadomosc</div>
+                  <div class="card-body">
+                    <h5 class="card-title">Wiadomość od: {{offer.user_from}}</h5>
+                    <p class="card-text"> Treść: {{offer.message_text}}</p>
+                    <p class="card-text">Cena: {{offer.negotiation_price}} zł</p>
+                    <p class="card-text">Użytkowanie: {{usage}}</p>
+                    <p class="card-text">Status oferty: {{offer.negotiation_status}}</p>
+                    <a class="btn btn-outline-danger"  href="{% url 'decline' offer.message_id %}" ><strong>Odrzuć</strong></a>
+                    <a class="btn btn-outline-success" href="{% url 'accept' offer.message_id %}" ><strong>Zaakceptuj</strong></a>
+                    <a class="btn btn-outline-primary" href="#" ><strong>Kontroferta</strong></a>
+                  </div>
               </div>
-          </div>
-        </div>
-    {% endfor %}
-</div>
+            </div>
+        {% endfor %}
+    </div>
+</form>
 
 
 

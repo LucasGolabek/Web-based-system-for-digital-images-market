@@ -14,5 +14,9 @@ urlpatterns = [
                   path('active/', views.active, name='active'),
                   path('crate/', views.create, name='create'),
                   path('messages/<int:id>/', views.message_page, name='messages'),
-                  path('delete/<int:id>/', views.delete_photo, name='delete')
+                  path('delete/<int:id>/', views.delete_photo, name='delete'),
+                  path('madeoffers/', views.made_offers, name='madeoffers'),
+                  path('decline/<int:id>/', views.decline_message, name='decline'),
+                  path('accept/<int:id>/', views.accept_message, name='accept'),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

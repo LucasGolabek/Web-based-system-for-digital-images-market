@@ -22,6 +22,8 @@ class CreateUserForm(UserCreationForm):
 
 class AddImageForm(ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
+
+
     class Meta:
         model = Product
         fields = ['name', 'username', 'description', 'price', 'usage', 'image']
@@ -39,13 +41,17 @@ class AddImageForm(ModelForm):
 class BuyoutProposalForm(ModelForm):
     user_from = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
     user_to = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
-    photo_id = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}))
+
+
     class Meta:
         model = Messages
         fields = ['user_from', 'user_to', 'message_text', 'negotiation_price', 'negotiation_usage', 'photo_id']
 
+
     def __init__(self, *args, **kwargs):
         super(BuyoutProposalForm, self).__init__(*args, **kwargs)
+
+        self.fields['photo_id'].widget.attrs['hidden'] = 'hidden'
         self.fields['message_text'].widget.attrs['class'] = 'form-control'
         self.fields['negotiation_price'].widget.attrs['class'] = 'form-control'
         self.fields['negotiation_usage'].widget.attrs['class'] = 'form-control'

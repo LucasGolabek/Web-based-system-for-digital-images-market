@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
+from django.db.models import Q
 
 
 # Create your views here.
@@ -14,8 +15,8 @@ from .models import *
 @login_required(login_url='login')
 def mainpage(request):
     products = Product.objects.all()
-    context = {'products':products,
-               'page_name':'mainpage'}
+    context = {'products': products,
+               'page_name': 'mainpage'}
     return render(request, 'marketplace/mainpage.html', context)
 
 
@@ -29,8 +30,8 @@ def active(request):
                    'page_name': 'active'}
         return render(request, 'marketplace/active_offers2.html', context)
     else:
-        context = {'actives':actives,
-                   'page_name':'active'}
+        context = {'actives': actives,
+                   'page_name': 'active'}
         return render(request, 'marketplace/active_offers.html', context)
 
 
@@ -38,18 +39,19 @@ def active(request):
 def message_page(request, id):
     username = request.user.username
     photo = get_object_or_404(Product, pk=id)
-    offers = Messages.objects.filter(user_to=username, photo_id=photo)
+    offers = Messages.objects.filter(user_to=username, photo_id=photo, negotiation_status='Oczekująca')
     photo_usage = photo.usage
-
-    if photo_usage == 'K':
-        usage = 'Komercyjne'
-    elif photo_usage == 'P':
-        usage = 'Prywatne'
-    else:
-        usage = 'Komercyjne ograniczone'
     context = {'offers': offers,
-               'usage': usage}
+               'usage':photo_usage}
     return render(request, 'marketplace/messages.html', context)
+
+@login_required(login_url='login')
+def made_offers(request):
+    username = request.user.username
+    offers = Messages.objects.filter(user_from=username)
+
+    context = {'offers': offers}
+    return render(request, 'marketplace/made_offers.html', context)
 
 
 @login_required(login_url='login')
@@ -66,17 +68,48 @@ def delete_photo(request, id):
 
 
 @login_required(login_url='login')
+def decline_message(request, id):
+    message = get_object_or_404(Messages, pk=id)
+    if request.method == "POST":
+        print('poscik')
+        message.negotiation_status = 'Odrzucona'
+        message.save()
+        return redirect('active')
+    context = {
+        'page_name': 'decline',
+        'message': message
+    }
+    return render(request, 'marketplace/decline.html', context)
+
+
+
+@login_required(login_url='login')
+def accept_message(request, id):
+    message = get_object_or_404(Messages, pk=id)
+    if request.method == "POST":
+        print('poscik')
+        message.negotiation_status = 'Zaakceptowana'
+        message.save()
+        return redirect('active')
+    context = {
+        'page_name': 'accepted',
+        'message': message
+    }
+    return render(request, 'marketplace/accept.html', context)
+
+
+@login_required(login_url='login')
 def create(request):
     if request.method == "POST":
         image_form = AddImageForm(request.POST, request.FILES)
         if image_form.is_valid():
             image_form.save()
-            messages.success(request, ('Twoje zdjęcie zostało dodane'))
+            messages.success(request, 'Twoje zdjęcie zostało dodane')
         else:
-            messages.error(request, ('Nie udało się dodać zdjęcia'))
+            messages.error(request, 'Nie udało się dodać zdjęcia')
     initial = {'username': request.user.username}
     image_form = AddImageForm(initial=initial)
-    context = {'image_form':image_form}
+    context = {'image_form': image_form}
     return render(request, 'marketplace/createoffer.html', context)
 
 
@@ -84,13 +117,13 @@ def create(request):
 def buy(request, id):
     product = get_object_or_404(Product, pk=id)
 
-    photo_id = product.pk
+    photo_id = product.photo_id
     photo_owner = product.username
     photo_usage = product.usage
 
     if photo_usage == 'K':
         usage = 'Komercyjne'
-    elif photo_usage =='P':
+    elif photo_usage == 'P':
         usage = 'Prywatne'
     else:
         usage = 'Komercyjne ograniczone'
@@ -101,17 +134,19 @@ def buy(request, id):
     message_form = BuyoutProposalForm(initial=initial)
 
     context = {'message_form': message_form,
-               'product':product,
-               'usage': usage}
+               'product': product,
+               'usage': usage,
+               'photo_id': photo_id}
     if request.method == "POST":
         message_form = BuyoutProposalForm(request.POST, request.FILES)
         if message_form.is_valid():
             message_form.save()
-            messages.success(request, ('Wysłano wiadomość'))
+            messages.success(request, 'Wysłano wiadomość')
         else:
-            messages.error(request, ('Nie udało się wysłac wiadomości'))
+            messages.error(request, 'Nie udało się wysłac wiadomości')
 
     return render(request, 'marketplace/buy.html', context)
+
 
 @login_required(login_url='login')
 def product_site(request, id):
@@ -119,13 +154,13 @@ def product_site(request, id):
     photo_usage = product.usage
     if photo_usage == 'K':
         usage = 'Komercyjne'
-    elif photo_usage =='P':
+    elif photo_usage == 'P':
         usage = 'Prywatne'
     else:
         usage = 'Komercyjne ograniczone'
 
-    context = {'product':product,
-               'usage':usage}
+    context = {'product': product,
+               'usage': usage}
     return render(request, 'marketplace/product_site.html', context)
 
 

@@ -1,0 +1,16 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="row">
+            <div class="card">
+
+              <h2>  Czy chcesz odrzucić ofertę:?</h2>
+
+              </p>
+              <input class="btn btn-outline-danger" type="submit" style="margin-bottom: 15px" value="Odrzuć ofertę">
+            </div>
+        </div>
+</form>
+{% endblock content %}
