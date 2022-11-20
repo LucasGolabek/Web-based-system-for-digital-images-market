@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.http import HttpResponse
 import datetime
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm, AddImageForm, BuyoutProposalForm
+from .forms import CreateUserForm, AddImageForm, BuyoutProposalForm, EditForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -36,21 +36,19 @@ def active(request):
 
 
 @login_required(login_url='login')
-def message_page(request, id):
+def message_page(request):
     username = request.user.username
-    photo = get_object_or_404(Product, pk=id)
-    offers = Messages.objects.filter(user_to=username, photo_id=photo, negotiation_status='Oczekująca')
-    photo_usage = photo.usage
+    offers = Messages.objects.filter(user_from=username)
     context = {'offers': offers,
-               'usage':photo_usage}
+               'page_name': 'messages'}
     return render(request, 'marketplace/messages.html', context)
 
 @login_required(login_url='login')
 def made_offers(request):
     username = request.user.username
     offers = Messages.objects.filter(user_from=username)
-
-    context = {'offers': offers}
+    context = {'offers': offers,
+               'page_name': 'madeoffers'}
     return render(request, 'marketplace/made_offers.html', context)
 
 
@@ -71,7 +69,6 @@ def delete_photo(request, id):
 def decline_message(request, id):
     message = get_object_or_404(Messages, pk=id)
     if request.method == "POST":
-        print('poscik')
         message.negotiation_status = 'Odrzucona'
         message.save()
         return redirect('active')
@@ -81,6 +78,21 @@ def decline_message(request, id):
     }
     return render(request, 'marketplace/decline.html', context)
 
+
+@login_required(login_url='login')
+def edit(request, id):
+    photo = get_object_or_404(Product, pk=id)
+    if request.method == "POST":
+        edit_form = EditForm(request.POST, instance=photo)
+        if edit_form.is_valid():
+            edit_form.save()
+            messages.success(request, 'Twoja oferta została edytowane')
+        else:
+            messages.error(request, 'Nie udało się edytować oferty')
+    initial = {'name':photo.name,'price':photo.price,'usage':photo.usage, 'description':photo.description}
+    edit_form = EditForm(initial=initial)
+    context = {'edit_form': edit_form}
+    return render(request, 'marketplace/editphoto.html', context)
 
 
 @login_required(login_url='login')
@@ -109,7 +121,8 @@ def create(request):
             messages.error(request, 'Nie udało się dodać zdjęcia')
     initial = {'username': request.user.username}
     image_form = AddImageForm(initial=initial)
-    context = {'image_form': image_form}
+    context = {'image_form': image_form,
+               'page_name': 'create'}
     return render(request, 'marketplace/createoffer.html', context)
 
 

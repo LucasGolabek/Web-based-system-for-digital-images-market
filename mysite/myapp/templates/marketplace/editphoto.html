@@ -1,0 +1,48 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+
+      <div class="card">
+          <form>
+              <br>
+            <br>
+            <div class="form-group">
+              <label>Nazwa zdjęcia</label>
+              <br>
+              {{edit_form.name}}
+            </div>
+              <br>
+              <div class="form-group">
+              <label>Cena</label>
+              <br>
+              {{edit_form.price}}
+            </div>
+              <br>
+            <div class="form-group">
+              <label>Wybierz zastosowanie obrazu</label>
+              <br>
+              {{edit_form.usage}}
+            </div>
+              <br>
+            <div class="form-group">
+              <label>Opis obrazu</label>
+              <br>
+              {{edit_form.description}}
+            </div>
+              <br>
+              <input class="btn btn-secondary" style="margin-bottom:15px" type="submit" value="Edytuj ofertę">
+
+          </form>
+        {% if messages %}
+          {% for message in messages %}
+          <p class="succes">{{message}}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+  </div>
+</form>
+
+{% endblock content %}

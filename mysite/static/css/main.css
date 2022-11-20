@@ -103,3 +103,12 @@ img {
   color: black;
   font-size: 16px;
 }
+
+.nav-pills .pill-1 .nav-link:not(.active) {
+    background-color: #e3f2fd;
+}
+
+
+.nav-pills .pill-1 .nav-link {
+    background-color: #F6FBFF;
+}
