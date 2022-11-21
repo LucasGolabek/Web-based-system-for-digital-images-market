@@ -14,15 +14,22 @@ from django.db.models import Q
 
 @login_required(login_url='login')
 def mainpage(request):
+    username = request.user.username
     products = Product.objects.all()
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
     context = {'products': products,
-               'page_name': 'mainpage'}
+               'page_name': 'mainpage',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
     return render(request, 'marketplace/mainpage.html', context)
 
 
 @login_required(login_url='login')
 def active(request):
     username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
     actives = Product.objects.filter(username=username)
 
     if len(actives) < 3:
@@ -31,24 +38,36 @@ def active(request):
         return render(request, 'marketplace/active_offers2.html', context)
     else:
         context = {'actives': actives,
-                   'page_name': 'active'}
+                   'page_name': 'active',
+                   'recived_offers': recived_offers,
+                   'sended_offers': sended_offers}
         return render(request, 'marketplace/active_offers.html', context)
 
 
 @login_required(login_url='login')
 def message_page(request):
     username = request.user.username
-    offers = Messages.objects.filter(user_from=username)
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    offers = Messages.objects.filter(user_to=username)
     context = {'offers': offers,
-               'page_name': 'messages'}
+               'page_name': 'messages',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
     return render(request, 'marketplace/messages.html', context)
+
 
 @login_required(login_url='login')
 def made_offers(request):
     username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    username = request.user.username
     offers = Messages.objects.filter(user_from=username)
     context = {'offers': offers,
-               'page_name': 'madeoffers'}
+               'page_name': 'madeoffers',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
     return render(request, 'marketplace/made_offers.html', context)
 
 
@@ -89,7 +108,7 @@ def edit(request, id):
             messages.success(request, 'Twoja oferta została edytowane')
         else:
             messages.error(request, 'Nie udało się edytować oferty')
-    initial = {'name':photo.name,'price':photo.price,'usage':photo.usage, 'description':photo.description}
+    initial = {'name': photo.name, 'price': photo.price, 'usage': photo.usage, 'description': photo.description}
     edit_form = EditForm(initial=initial)
     context = {'edit_form': edit_form}
     return render(request, 'marketplace/editphoto.html', context)
@@ -112,6 +131,9 @@ def accept_message(request, id):
 
 @login_required(login_url='login')
 def create(request):
+    username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
     if request.method == "POST":
         image_form = AddImageForm(request.POST, request.FILES)
         if image_form.is_valid():
@@ -122,7 +144,9 @@ def create(request):
     initial = {'username': request.user.username}
     image_form = AddImageForm(initial=initial)
     context = {'image_form': image_form,
-               'page_name': 'create'}
+               'page_name': 'create',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
     return render(request, 'marketplace/createoffer.html', context)
 
 
@@ -132,14 +156,6 @@ def buy(request, id):
 
     photo_id = product.photo_id
     photo_owner = product.username
-    photo_usage = product.usage
-
-    if photo_usage == 'K':
-        usage = 'Komercyjne'
-    elif photo_usage == 'P':
-        usage = 'Prywatne'
-    else:
-        usage = 'Komercyjne ograniczone'
 
     initial = {'user_from': request.user.username,
                'user_to': photo_owner,
@@ -148,7 +164,6 @@ def buy(request, id):
 
     context = {'message_form': message_form,
                'product': product,
-               'usage': usage,
                'photo_id': photo_id}
     if request.method == "POST":
         message_form = BuyoutProposalForm(request.POST, request.FILES)
@@ -162,18 +177,39 @@ def buy(request, id):
 
 
 @login_required(login_url='login')
+def counteroffer(request, id):
+    offer = get_object_or_404(Messages, pk=id)
+
+    message_to = offer.user_from
+    photo_id = offer.photo_id.photo_id
+    print(offer.photo_id)
+
+    initial = {'user_from': request.user.username,
+               'user_to': message_to,
+               'photo_id': photo_id}
+    message_form = BuyoutProposalForm(initial=initial)
+
+    context = {'message_form': message_form,
+               'offer': offer,
+               'photo_id': photo_id}
+    if request.method == "POST":
+        message_form = BuyoutProposalForm(request.POST, request.FILES)
+        if message_form.is_valid():
+            offer.negotiation_status = 'Kontroferta'
+            offer.delete()
+            message_form.save()
+            messages.success(request, 'Wysłano wiadomość')
+        else:
+            messages.error(request, 'Nie udało się wysłac wiadomości')
+
+    return render(request, 'marketplace/counteroffer.html', context)
+
+
+@login_required(login_url='login')
 def product_site(request, id):
     product = get_object_or_404(Product, pk=id)
-    photo_usage = product.usage
-    if photo_usage == 'K':
-        usage = 'Komercyjne'
-    elif photo_usage == 'P':
-        usage = 'Prywatne'
-    else:
-        usage = 'Komercyjne ograniczone'
 
-    context = {'product': product,
-               'usage': usage}
+    context = {'product': product}
     return render(request, 'marketplace/product_site.html', context)
 
 

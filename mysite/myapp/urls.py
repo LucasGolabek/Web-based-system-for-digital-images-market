@@ -19,6 +19,7 @@ urlpatterns = [
                   path('decline/<int:id>/', views.decline_message, name='decline'),
                   path('accept/<int:id>/', views.accept_message, name='accept'),
                   path('edit/<int:id>/', views.edit, name='edit'),
+                  path('counteroffer/<int:id>/', views.counteroffer, name='counteroffer'),
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

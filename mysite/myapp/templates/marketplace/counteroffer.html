@@ -1,0 +1,60 @@
+{% extends 'marketplace/main.html' %}
+{% load static %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="row" style="margin-bottom: 50px">
+        <div class="card">
+                <div>
+                    <img style="border-radius:8px; padding:5px; height:350px; weight:auto;"  src="{{product.imageURL}}">
+                    <h5><strong>Nazwa: {{offer.photo_id.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspAutor: {{offer.photo_id.username}}</strong></h5>
+                    <h5><strong>Proponowana cena: {{offer.negotiation_price|floatformat:2}}zł &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspPropozycja Zastosowania: {{offer.negotiation_usage}}</strong></h5>
+                </div>
+            <br>
+
+                <form>
+                    <div class="form-group">
+                      {{message_form.photo_id}}
+                  </div>
+                    <div class="form-group">
+                    <label>Odbiorca</label>
+                        <br>
+                      {{message_form.user_to}}
+                  </div>
+                    <div class="form-group">
+                    <label>Nadawca</label>
+                        <br>
+                      {{message_form.user_from}}
+                  </div>
+                  <div class="form-group">
+                    <label>Podaj swoją cene</label>
+                      <br>
+                      {{message_form.negotiation_price}}
+                  </div>
+
+                  <div class="form-group">
+                    <label>Zastosowanie</label>
+                      <br>
+                      {{message_form.negotiation_usage}}
+                  </div>
+
+                  <div class="form-group">
+                    <label>Wiadomość do sprzedającego</label>
+                      <br>
+                      {{message_form.message_text}}
+                  </div>
+                </form>
+            <br>
+            <table class="table">
+                <input class="btn btn-secondary" type="submit" value="Złóż kontrofertę">
+            </table>
+            {% if messages %}
+                {% for message in messages %}
+                <p class="succes">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

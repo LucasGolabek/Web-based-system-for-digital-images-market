@@ -3,12 +3,12 @@
 {% block content %}
 <form method="POST" enctype="multipart/form-data">
   {% csrf_token %}
-    <div class="row">
+    <div class="row" style="margin-bottom: 50px">
         <div class="card">
                 <div>
-                    <img style="border-radius:8px; padding:5px; height:400px; weight:auto;"  src="{{product.imageURL}}">
+                    <img style="border-radius:8px; padding:5px; height:350px; weight:auto;"  src="{{product.imageURL}}">
                     <h5><strong>Nazwa: {{product.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspAutor: {{product.username}}</strong></h5>
-                    <h5><strong>Cena: {{product.price|floatformat:2}}zł &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspZastosowanie: {{usage}}</strong></h5>
+                    <h5><strong>Cena: {{product.price|floatformat:2}}zł &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbspZastosowanie: {{product.usage}}</strong></h5>
 
                 </div>
             <br>

@@ -8,7 +8,7 @@
         <div class="box-element product">
             <h5><strong>{{active.name}}</strong></h5>
             <hr>
-            <a class="btn btn-outline-primary" href={% url 'edit' active.photo_id %}" ><strong>Wiadomości</strong>
+            <a class="btn btn-outline-primary" href="{% url 'edit' active.photo_id %}" ><strong>Edytuj</strong>
             </a>
             <a class="btn btn-outline-danger" href="{% url 'delete' active.photo_id %}"><strong>Usuń</strong></a>
             <h3 style="display:inline-block; float:right;">{{active.price|floatformat:2}}zł</h3>
