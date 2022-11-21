@@ -18,10 +18,12 @@ def mainpage(request):
     products = Product.objects.all()
     recived_offers = len(Messages.objects.filter(user_to=username))
     sended_offers = len(Messages.objects.filter(user_from=username))
+    active_number = len(products)
     context = {'products': products,
                'page_name': 'mainpage',
                'recived_offers': recived_offers,
-               'sended_offers': sended_offers}
+               'sended_offers': sended_offers,
+               'active_number': active_number}
     return render(request, 'marketplace/mainpage.html', context)
 
 
@@ -31,17 +33,14 @@ def active(request):
     recived_offers = len(Messages.objects.filter(user_to=username))
     sended_offers = len(Messages.objects.filter(user_from=username))
     actives = Product.objects.filter(username=username)
+    active_number = len(actives)
 
-    if len(actives) < 3:
-        context = {'actives': actives,
-                   'page_name': 'active'}
-        return render(request, 'marketplace/active_offers2.html', context)
-    else:
-        context = {'actives': actives,
-                   'page_name': 'active',
-                   'recived_offers': recived_offers,
-                   'sended_offers': sended_offers}
-        return render(request, 'marketplace/active_offers.html', context)
+    context = {'actives': actives,
+               'page_name': 'active',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers,
+               'active_number': active_number}
+    return render(request, 'marketplace/active_offers.html', context)
 
 
 @login_required(login_url='login')

@@ -3,7 +3,12 @@
 {% block content %}
     <div class="row" style="margin-bottom: 20px;">
         {% for product in products %}
-        <div class="col-lg-4" style="margin-bottom: 20px;">
+        {% if active_number < 3 %}
+            <div class="col-lg-6" style="margin-bottom: 20px;">
+        {% endif %}
+        {% if active_number > 2 %}
+            <div class="col-lg-4" style="margin-bottom: 20px;">
+        {% endif %}
             <img class="thumbnail" src="{{product.imageURL}}">
             <div class="box-element product">
                 <h5><strong>{{product.name}}</strong></h5>

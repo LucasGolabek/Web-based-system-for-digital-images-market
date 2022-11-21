@@ -3,7 +3,12 @@
 {% block content %}
 <div class="row" style="margin-bottom: 20px;">
     {% for active in actives %}
-        <div class="col-lg-4" style="margin-bottom: 20px;">
+        {% if active_number < 3 %}
+            <div class="col-lg-6" style="margin-bottom: 20px;">
+        {% endif %}
+        {% if active_number > 2 %}
+            <div class="col-lg-4" style="margin-bottom: 20px;">
+        {% endif %}
         <img class="thumbnail" src="{{active.imageURL}}">
         <div class="box-element product">
             <h5><strong>{{active.name}}</strong></h5>
@@ -12,7 +17,7 @@
             </a>
             <a class="btn btn-outline-danger" href="{% url 'delete' active.photo_id %}"><strong>Usuń</strong></a>
             <h3 style="display:inline-block; float:right;">{{active.price|floatformat:2}}zł</h3>
-        </div>
+            </div>
         </div>
     {% endfor %}
 </div>
