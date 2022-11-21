@@ -19,6 +19,8 @@ urlpatterns = [
                   path('accept/<int:id>/', views.accept_message, name='accept'),
                   path('edit/<int:id>/', views.edit, name='edit'),
                   path('counteroffer/<int:id>/', views.counteroffer, name='counteroffer'),
+                  path('delete_message/<int:id>/', views.delete_message, name='delete_message'),
+
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

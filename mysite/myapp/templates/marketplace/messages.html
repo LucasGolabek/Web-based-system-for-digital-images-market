@@ -9,7 +9,7 @@
               <div class="card bg-light mb-3" style="width:670px">
                 <div class="card-header">Oferta do produktu: {{offer.photo_id}}, Właściciel zdjęcia: {{offer.photo_id.username}}</div>
                   <div class="card-body">
-                    <img src="{{offer.photo_id.imageURL}}" style="width:50%; border-radius:2%;">
+                    <img src="{{offer.photo_id.imageURL}}" style="width:450px; border-radius:2%;">
                     <h5 class="card-title">Wiadomość od: {{offer.user_from}}</h5>
                     <p class="card-text">Treść: {{offer.message_text}}</p>
                     <p class="card-text">Początkowa Cena: {{offer.photo_id.price}} zł</p>
@@ -20,13 +20,13 @@
                     {% if offer.negotiation_status == "Oczekująca" %}
                         <a class="btn btn-outline-danger"  href="{% url 'decline' offer.message_id %}" ><strong>Odrzuć</strong></a>
                         <a class="btn btn-outline-success" href="{% url 'accept' offer.message_id %}" ><strong>Zaakceptuj</strong></a>
-                        <a class="btn btn-outline-primary" href="{% url 'counteroffer' offer.message_id %}" ><strong>Kontroferta</strong></a>
+                        <a class="btn btn-outline-secondary" href="{% url 'counteroffer' offer.message_id %}" ><strong>Kontroferta</strong></a>
                     {% endif %}
                      {% if offer.negotiation_status == "Zaakceptowana" and offer.photo_id.username != offer.user_to %}
-                        <input class="btn btn-success" value="Pobierz zdjęcie">
+                        <a class="btn btn-success" href="#" ><strong>Pobierz zdjęcie</strong></a>
                      {% endif %}
-                     {% if offer.negotiation_status != "Oczekująca" %}
-                         <input class="btn btn-danger" value="Usuń">
+                     {% if offer.negotiation_status != "Oczekująca" and offer.photo_id.username != offer.user_to %}
+                        <a class="btn btn-danger" href="{% url 'delete_message' offer.message_id %}" ><strong>Usuń</strong></a>
                      {% endif %}
                   </div>
               </div>

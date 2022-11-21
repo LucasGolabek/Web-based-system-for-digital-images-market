@@ -69,12 +69,27 @@ def made_offers(request):
 @login_required(login_url='login')
 def delete_photo(request, id):
     photo = get_object_or_404(Product, pk=id)
+    photo_name = photo.name
     if request.method == "POST":
         photo.delete()
         return redirect('mainpage')
     context = {
-        'photo': photo,
+        'object': photo_name,
         'page_name': 'delete'
+    }
+    return render(request, 'marketplace/delete.html', context)
+
+
+@login_required(login_url='login')
+def delete_message(request, id):
+    message = get_object_or_404(Messages, pk=id)
+    message_id = message.message_id
+    if request.method == "POST":
+        message.delete()
+        return redirect('mainpage')
+    context = {
+        'object': message_id,
+        'page_name': 'delete_message'
     }
     return render(request, 'marketplace/delete.html', context)
 
