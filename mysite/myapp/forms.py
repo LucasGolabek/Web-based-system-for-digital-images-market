@@ -66,5 +66,3 @@ class EditForm(ModelForm):
         self.fields['description'].widget.attrs['class'] = 'form-control'
         self.fields['price'].widget.attrs['class'] = 'form-control'
         self.fields['usage'].widget.attrs['class'] = 'form-control'
-
-

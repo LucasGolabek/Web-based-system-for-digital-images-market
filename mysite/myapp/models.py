@@ -1,12 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
-import uuid
 
 
 # Create your models here.
 
 class Product(models.Model):
-    usage_possibilities = (('Prywatne', 'Prywatne'), ('Komercyjne', 'Komercyjne'), ('Komercyjne ograniczone', 'Komercyjne ograniczone'))
+    usage_possibilities = (('Prywatne', 'Prywatne'), ('Komercyjne', 'Komercyjne'), ('Komercyjne ograniczone',
+                                                                                    'Komercyjne ograniczone'))
 
     photo_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, null=True)
@@ -29,8 +28,10 @@ class Product(models.Model):
 
 
 class Messages(models.Model):
-    usage_possibilities = (('Prywatne', 'Prywatne'), ('Komercyjne', 'Komercyjne'), ('Komercyjne ograniczone', 'Komercyjne ograniczone'))
-    status_possibilities = (('Zaakceptowana', 'Zaakceptowana'), ('Odrzucona', 'Odrzucona'), ('Oczekująca', 'Oczekująca'), ('Kontroferta', 'Kontroferta'))
+    usage_possibilities = (('Prywatne', 'Prywatne'), ('Komercyjne', 'Komercyjne'), ('Komercyjne ograniczone',
+                                                                                    'Komercyjne ograniczone'))
+    status_possibilities = (('Zaakceptowana', 'Zaakceptowana'), ('Odrzucona', 'Odrzucona'),
+                            ('Oczekująca', 'Oczekująca'), ('Kontroferta', 'Kontroferta'))
 
     message_id = models.BigAutoField(primary_key=True)
     user_from = models.CharField(max_length=100)
@@ -38,7 +39,6 @@ class Messages(models.Model):
     message_text = models.TextField(max_length=600, null=True, blank=True)
     negotiation_price = models.FloatField()
     negotiation_usage = models.CharField(max_length=100, choices=usage_possibilities)
-    negotiation_status = models.CharField(max_length=100, choices=status_possibilities, default=status_possibilities[2][0])
+    negotiation_status = models.CharField(max_length=100, choices=status_possibilities,
+                                          default=status_possibilities[2][0])
     photo_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-
