@@ -31,7 +31,7 @@ class Messages(models.Model):
     usage_possibilities = (('Prywatne', 'Prywatne'), ('Komercyjne', 'Komercyjne'), ('Komercyjne ograniczone',
                                                                                     'Komercyjne ograniczone'))
     status_possibilities = (('Zaakceptowana', 'Zaakceptowana'), ('Odrzucona', 'Odrzucona'),
-                            ('Oczekująca', 'Oczekująca'), ('Kontroferta', 'Kontroferta'))
+                            ('Oczekująca', 'Oczekująca'), ('Archiwalna', 'Archiwalna'), ('Oczekuje na wpłatę', 'Oczekuje na wpłatę'))
 
     message_id = models.BigAutoField(primary_key=True)
     user_from = models.CharField(max_length=100)

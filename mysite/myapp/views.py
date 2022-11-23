@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .forms import CreateUserForm, AddImageForm, BuyoutProposalForm, EditForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -53,17 +53,81 @@ def message_page(request):
 
 
 @login_required(login_url='login')
+def message_page_buy(request):
+    username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    offers = Messages.objects.filter(user_to=username)
+    context = {'offers': offers,
+               'page_name': 'messages',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
+    return render(request, 'marketplace/messages_buy.html', context)
+
+
+@login_required(login_url='login')
+def message_page_sell(request):
+    username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    offers = Messages.objects.filter(user_to=username)
+    context = {'offers': offers,
+               'page_name': 'messages',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
+    return render(request, 'marketplace/messages_sell.html', context)
+
+
+@login_required(login_url='login')
 def made_offers(request):
     username = request.user.username
     recived_offers = len(Messages.objects.filter(user_to=username))
     sended_offers = len(Messages.objects.filter(user_from=username))
-    username = request.user.username
     offers = Messages.objects.filter(user_from=username)
     context = {'offers': offers,
                'page_name': 'madeoffers',
                'recived_offers': recived_offers,
                'sended_offers': sended_offers}
     return render(request, 'marketplace/made_offers.html', context)
+
+
+@login_required(login_url='login')
+def made_offers_buy(request):
+    username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    offers = Messages.objects.filter(user_from=username)
+    context = {'offers': offers,
+               'page_name': 'madeoffers',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
+    return render(request, 'marketplace/madeoffers_buy.html', context)
+
+
+@login_required(login_url='login')
+def made_offers_sell(request):
+    username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    offers = Messages.objects.filter(user_from=username)
+    context = {'offers': offers,
+               'page_name': 'madeoffers',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
+    return render(request, 'marketplace/madeoffers_sell.html', context)
+
+
+@login_required(login_url='login')
+def archive_offers(request):
+    username = request.user.username
+    recived_offers = len(Messages.objects.filter(user_to=username))
+    sended_offers = len(Messages.objects.filter(user_from=username))
+    offers = get_list_or_404(Messages)
+    context = {'offers': offers,
+               'page_name': 'archive_offers',
+               'recived_offers': recived_offers,
+               'sended_offers': sended_offers}
+    return render(request, 'marketplace/archive.html', context)
 
 
 @login_required(login_url='login')
@@ -100,7 +164,7 @@ def decline_message(request, id):
     if request.method == "POST":
         message.negotiation_status = 'Odrzucona'
         message.save()
-        return redirect('active')
+        return redirect('mainpage')
     context = {
         'page_name': 'decline',
         'message': message
@@ -115,7 +179,7 @@ def edit(request, id):
         edit_form = EditForm(request.POST, instance=photo)
         if edit_form.is_valid():
             edit_form.save()
-            messages.success(request, 'Twoja oferta została edytowane')
+            return redirect('active')
         else:
             messages.error(request, 'Nie udało się edytować oferty')
     initial = {'name': photo.name, 'price': photo.price, 'usage': photo.usage, 'description': photo.description}
@@ -129,9 +193,9 @@ def accept_message(request, id):
     message = get_object_or_404(Messages, pk=id)
     if request.method == "POST":
         print('poscik')
-        message.negotiation_status = 'Zaakceptowana'
+        message.negotiation_status = 'Oczekuje na wpłatę'
         message.save()
-        return redirect('active')
+        return redirect('mainpage')
     context = {
         'page_name': 'accepted',
         'message': message
@@ -148,7 +212,7 @@ def create(request):
         image_form = AddImageForm(request.POST, request.FILES)
         if image_form.is_valid():
             image_form.save()
-            messages.success(request, 'Twoje zdjęcie zostało dodane')
+            return redirect('active')
         else:
             messages.error(request, 'Nie udało się dodać zdjęcia')
     initial = {'username': request.user.username}
@@ -205,10 +269,10 @@ def counteroffer(request, id):
     if request.method == "POST":
         message_form = BuyoutProposalForm(request.POST, request.FILES)
         if message_form.is_valid():
-            offer.negotiation_status = 'Kontroferta'
             offer.delete()
             message_form.save()
             messages.success(request, 'Wysłano wiadomość')
+            return redirect('mainpage')
         else:
             messages.error(request, 'Nie udało się wysłac wiadomości')
 
@@ -237,7 +301,7 @@ def login_page(request):
                 login(request, user)
                 return redirect('mainpage')
             else:
-                messages.info(request, "Niepoprawne dane")
+                messages.c(request, "Niepoprawne dane")
 
         context = {}
         return render(request, 'marketplace/login_page.html', context)

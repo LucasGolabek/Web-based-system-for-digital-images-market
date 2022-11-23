@@ -46,7 +46,10 @@
               <a class="nav-link {% if page_name == 'messages' %} active {% endif %}" aria-current="page" href="{% url 'messages' %}">Otrzymane oferty <span class="badge badge-light" style="background-color:#3FA2DE">{{recived_offers}}</span></a>
             </li>
             <li class="nav-item pill-1">
-              <a class="nav-link {% if page_name == 'create' %} active {% endif %}" aria-current="page" href="{% url 'create' %}">Stwórz ofertę</a>
+              <a class="nav-link {% if page_name == 'create' %} active {% endif %}" aria-current="page" href="{% url 'create' %}">Stwórz ofertę </a>
+            </li>
+            <li class="nav-item pill-1">
+              <a class="nav-link {% if page_name == 'archive_offers' %} active {% endif %}" aria-current="page" href="{% url 'archive_offers' %}">Archiwalne oferty</a>
             </li>
           </ul>
 

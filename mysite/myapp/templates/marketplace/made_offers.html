@@ -4,9 +4,15 @@
 <form method="POST">
     {% csrf_token %}
     <div class="row" style="margin-bottom: 20px;">
+        <div class="card bg-light mb-3" style="width:900px">
+            <div class="btn-group">
+                <a class="btn btn-outline-secondary active" href="{% url 'madeoffers' %}" style="margin:10px">Wszystkie</a>
+                <a class="btn btn-outline-secondary" href="{% url 'madeoffers_buy' %}" style="margin:10px">Kupno</a>
+                <a class="btn btn-outline-secondary" href="{% url 'madeoffers_sell' %}" style="margin:10px">Sprzedaż</a>
+            </div>
         {% for offer in offers %}
 
-              <div class="card bg-light mb-3" style="width:670px">
+              <div class="card bg-light mb-3" style="width:670px; margin-top:30px">
                 <div class="card-header">Oferta do produktu: {{offer.photo_id}}, Właściciel zdjęcia: {{offer.photo_id.username}}</div>
                   <div class="card-body">
                     <img src="{{offer.photo_id.imageURL}}" style="width:450px; border-radius:2%;">
@@ -17,17 +23,21 @@
                     <p class="card-text">Deklarowane Użycie: {{offer.photo_id.usage}} </p>
                     <p class="card-text">Proponowane użycie: {{offer.negotiation_usage}} </p>
                     <p class="card-text">Status oferty: <strong>{{offer.negotiation_status}}</strong></p>
-                    {% if offer.negotiation_status == "Zaakceptowana" and offer.photo_id.username != offer.user_from %}
+                      {% if offer.negotiation_status == "Zaakceptowana" and offer.photo_id.username != offer.user_from %}
                       <a class="btn btn-success" href="{{offer.photo_id.imageURL}}" download="{{offer.photo_id.imageURL}}" ><strong>Pobierz zdjęcie</strong></a>
-                    {% endif %}
-                    {% if offer.negotiation_status != "Oczekująca" and offer.photo_id.username != offer.user_from %}
-                      <a class="btn btn-danger" href="{% url 'delete_message' offer.message_id %}" ><strong>Usuń</strong></a>
-                    {% endif %}
+                      {% endif %}
+                      {% if offer.negotiation_status != "Oczekuje na wpłatę" and offer.negotiation_status != "Oczekująca" and offer.photo_id.username != offer.user_from %}
+                      <a class="btn btn-danger" href="{% url 'delete_message' offer.message_id %}" ><strong>Archiwizuj</strong></a>
+                      {% endif %}
+                      {% if offer.negotiation_status == "Oczekuje na wpłatę" and offer.photo_id.username != offer.user_to %}
+                      <a class="btn btn-success" href="#" ><strong>Potwierdź otrzymanie środków</strong></a>
+                      {% endif %}
                   </div>
               </div>
 
 
         {% endfor %}
+        </div>
     </div>
 </form>
 
