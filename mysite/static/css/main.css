@@ -27,15 +27,9 @@ h1,h2,h3,h4,h5,h6{
 
 .product{
 	border-radius: 0 0 4px 4px;
-
 }
 
-.bg-dark{
-	background-color: #4f868c!important;
-}
-
-
-.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
+.col-lg-4, .col-lg-6, .col-lg-12{
 	margin-top: 10px;
 }
 
@@ -53,10 +47,6 @@ h1,h2,h3,h4,h5,h6{
 	padding: 5px;
 }
 
-
-.hidden{
-	display: none!important;
-}
 
 .container {
   display: flex;
@@ -99,15 +89,10 @@ img {
   font-size: 16px;
 }
 
-.welcomemessage{
-  color: black;
-  font-size: 16px;
-}
 
 .nav-pills .pill-1 .nav-link:not(.active) {
     background-color: #e3f2fd;
 }
-
 
 .nav-pills .pill-1 .nav-link {
     background-color: #F6FBFF;

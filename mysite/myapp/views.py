@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from django.db.models import Q
 
+
 # Create your views here.
 
 @login_required(login_url='login')
@@ -207,6 +208,7 @@ def confirm_payment(request, id):
         'message': message
     }
     return render(request, 'marketplace/confirm_payment.html', context)
+
 
 @login_required(login_url='login')
 def edit(request, id):

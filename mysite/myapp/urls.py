@@ -28,7 +28,4 @@ urlpatterns = [
                   path('archivize/<int:id>/', views.archivize_message, name='archivize'),
                   path('confirm_payment/<int:id>/', views.confirm_payment, name='confirm_payment')
 
-
-
-
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
