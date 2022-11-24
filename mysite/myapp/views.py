@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
+from django.db.models import Q
 
 
 # Create your views here.
@@ -12,8 +13,9 @@ from .models import *
 def mainpage(request):
     username = request.user.username
     products = Product.objects.all()
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     active_number = len(products)
     context = {'products': products,
                'page_name': 'mainpage',
@@ -26,8 +28,9 @@ def mainpage(request):
 @login_required(login_url='login')
 def active(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     actives = Product.objects.filter(username=username)
     active_number = len(actives)
 
@@ -42,8 +45,9 @@ def active(request):
 @login_required(login_url='login')
 def message_page(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     offers = Messages.objects.filter(user_to=username)
     context = {'offers': offers,
                'page_name': 'messages',
@@ -55,8 +59,9 @@ def message_page(request):
 @login_required(login_url='login')
 def message_page_buy(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     offers = Messages.objects.filter(user_to=username)
     context = {'offers': offers,
                'page_name': 'messages',
@@ -68,8 +73,9 @@ def message_page_buy(request):
 @login_required(login_url='login')
 def message_page_sell(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     offers = Messages.objects.filter(user_to=username)
     context = {'offers': offers,
                'page_name': 'messages',
@@ -81,8 +87,9 @@ def message_page_sell(request):
 @login_required(login_url='login')
 def made_offers(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     offers = Messages.objects.filter(user_from=username)
     context = {'offers': offers,
                'page_name': 'madeoffers',
@@ -94,9 +101,10 @@ def made_offers(request):
 @login_required(login_url='login')
 def made_offers_buy(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
     offers = Messages.objects.filter(user_from=username)
+
     context = {'offers': offers,
                'page_name': 'madeoffers',
                'recived_offers': recived_offers,
@@ -107,8 +115,9 @@ def made_offers_buy(request):
 @login_required(login_url='login')
 def made_offers_sell(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     offers = Messages.objects.filter(user_from=username)
     context = {'offers': offers,
                'page_name': 'madeoffers',
@@ -120,8 +129,9 @@ def made_offers_sell(request):
 @login_required(login_url='login')
 def archive_offers(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     offers = get_list_or_404(Messages)
     context = {'offers': offers,
                'page_name': 'archive_offers',
@@ -173,6 +183,33 @@ def decline_message(request, id):
 
 
 @login_required(login_url='login')
+def archivize_message(request, id):
+    message = get_object_or_404(Messages, pk=id)
+    if request.method == "POST":
+        message.negotiation_status = 'Archiwalna'
+        message.save()
+        return redirect('mainpage')
+    context = {
+        'page_name': 'archivize',
+        'message': message
+    }
+    return render(request, 'marketplace/archivize.html', context)
+
+
+@login_required(login_url='login')
+def confirm_payment(request, id):
+    message = get_object_or_404(Messages, pk=id)
+    if request.method == "POST":
+        message.negotiation_status = 'Zaakceptowana'
+        message.save()
+        return redirect('mainpage')
+    context = {
+        'page_name': 'confirm_payment',
+        'message': message
+    }
+    return render(request, 'marketplace/confirm_payment.html', context)
+
+@login_required(login_url='login')
 def edit(request, id):
     photo = get_object_or_404(Product, pk=id)
     if request.method == "POST":
@@ -206,8 +243,9 @@ def accept_message(request, id):
 @login_required(login_url='login')
 def create(request):
     username = request.user.username
-    recived_offers = len(Messages.objects.filter(user_to=username))
-    sended_offers = len(Messages.objects.filter(user_from=username))
+    recived_offers = len(Messages.objects.filter(user_to=username).filter(~Q(negotiation_status="Archiwalna")))
+    sended_offers = len(Messages.objects.filter(user_from=username).filter(~Q(negotiation_status="Archiwalna")))
+
     if request.method == "POST":
         image_form = AddImageForm(request.POST, request.FILES)
         if image_form.is_valid():

@@ -7,21 +7,21 @@
 
             {% for offer in offers %}
                 {% if offer.negotiation_status == "Archiwalna" %}
+                    <div class="col-lg-12">
+                        <div class="card bg-light mb-3" style="width:500px; margin-top:30px">
+                            <div class="card-header">Oferta do produktu: {{offer.photo_id}}, Właściciel zdjęcia: {{offer.photo_id.username}}</div>
+                            <div class="card-body">
+                                <img src="{{offer.photo_id.imageURL}}" style="width:450px; border-radius:2%;">
+                                <p class="card-text">Twoja Cena: {{offer.photo_id.price}} zł</p>
+                                <p class="card-text">Propozycja ceny: {{offer.negotiation_price}} zł</p>
+                                <p class="card-text">Deklarowane Użycie: {{offer.photo_id.usage}} </p>
+                                <p class="card-text">Proponowane użycie: {{offer.negotiation_usage}} </p>
+                                <p class="card-text">Status oferty: <strong>{{offer.negotiation_status}}</strong></p>
+                                <a class="btn btn-danger" href="{% url 'delete_message' offer.message_id %}" ><strong>Usuń</strong></a>
 
-                    <div class="card bg-light mb-3" style="width:670px; margin-top:30px">
-                        <div class="card-header">Oferta do produktu: {{offer.photo_id}}, Właściciel zdjęcia: {{offer.photo_id.username}}</div>
-                        <div class="card-body">
-                            <img src="{{offer.photo_id.imageURL}}" style="width:450px; border-radius:2%;">
-                            <p class="card-text">Twoja Cena: {{offer.photo_id.price}} zł</p>
-                            <p class="card-text">Propozycja ceny: {{offer.negotiation_price}} zł</p>
-                            <p class="card-text">Deklarowane Użycie: {{offer.photo_id.usage}} </p>
-                            <p class="card-text">Proponowane użycie: {{offer.negotiation_usage}} </p>
-                            <p class="card-text">Status oferty: <strong>{{offer.negotiation_status}}</strong></p>
-                            <a class="btn btn-danger" href="{% url 'delete_message' offer.message_id %}" ><strong>Usuń</strong></a>
-
+                            </div>
                         </div>
                     </div>
-
                 {% endif %}
             {% endfor %}
         </div>

@@ -11,7 +11,7 @@
                 <a class="btn btn-outline-secondary" href="{% url 'madeoffers_sell' %}" style="margin:10px">Sprzedaż</a>
             </div>
             {% for offer in offers %}
-                {% if offer.user_to == offer.photo_id.username %}
+                {% if offer.user_to == offer.photo_id.username and offer.negotiation_status != "Archiwalna" %}
 
                     <div class="card bg-light mb-3" style="width:670px; margin-top:30px">
                         <div class="card-header">Oferta do produktu: {{offer.photo_id}}, Właściciel zdjęcia: {{offer.photo_id.username}}</div>

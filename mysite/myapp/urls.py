@@ -24,7 +24,9 @@ urlpatterns = [
                   path('edit/<int:id>/', views.edit, name='edit'),
                   path('counteroffer/<int:id>/', views.counteroffer, name='counteroffer'),
                   path('delete_message/<int:id>/', views.delete_message, name='delete_message'),
-                  path('archive_offers/', views.archive_offers, name='archive_offers')
+                  path('archive_offers/', views.archive_offers, name='archive_offers'),
+                  path('archivize/<int:id>/', views.archivize_message, name='archivize'),
+                  path('confirm_payment/<int:id>/', views.confirm_payment, name='confirm_payment')
 
 
 

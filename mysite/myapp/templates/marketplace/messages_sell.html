@@ -12,7 +12,7 @@
                 <a class="btn btn-outline-secondary active" href="{% url 'messages_sell' %}" style="margin:10px">Sprzedaż</a>
             </div>
             {% for offer in offers %}
-                {% if offer.user_to == offer.photo_id.username %}
+                {% if offer.user_to == offer.photo_id.username and offer.negotiation_status != "Archiwalna"%}
 
                     <div class="card bg-light mb-3" style="width:670px">
                         <div class="card-header">Oferta do produktu: {{offer.photo_id}}, Właściciel zdjęcia: {{offer.photo_id.username}}</div>
@@ -34,10 +34,10 @@
                             <a class="btn btn-success" href="{{offer.photo_id.imageURL}}" download="{{offer.photo_id.imageURL}}" ><strong>Pobierz zdjęcie</strong></a>
                             {% endif %}
                             {% if offer.negotiation_status != "Oczekująca" and offer.photo_id.username != offer.user_to %}
-                            <a class="btn btn-danger" href="{% url 'delete_message' offer.message_id %}" ><strong>Usuń</strong></a>
+                            <a class="btn btn-danger" href="{% url 'archivize' offer.message_id %}" ><strong>Archiwizuj</strong></a>
                             {% endif %}
                             {% if offer.negotiation_status == "Oczekuje na wpłatę" and offer.photo_id.username == offer.user_to %}
-                            <a class="btn btn-success" href="#" ><strong>Potwierdź otrzymanie środków</strong></a>
+                            <a class="btn btn-success" href="{% url 'confirm_payment' offer.message_id %}" ><strong>Potwierdź otrzymanie środków</strong></a>
                             {% endif %}
                         </div>
                     </div>
