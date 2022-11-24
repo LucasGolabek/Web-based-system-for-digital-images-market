@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from django.db.models import Q
 
-
 # Create your views here.
 
 @login_required(login_url='login')
@@ -339,7 +338,7 @@ def login_page(request):
                 login(request, user)
                 return redirect('mainpage')
             else:
-                messages.c(request, "Niepoprawne dane")
+                messages.info(request, "Niepoprawne dane")
 
         context = {}
         return render(request, 'marketplace/login_page.html', context)
