@@ -2,7 +2,10 @@
 ### Readme in the process of creating
 
 ## General Information
-An application enabling the purchase and sale of virtual images
+Web application for buying and selling digital images. In addition, the 
+proposed solution gives user the opportunity to negotiate prices and 
+usage of images. The project lasted 6 months and was created as part of 
+an engineering thesis.
 
 ## Technologies Used
 -Python
